@@ -1,6 +1,7 @@
 package com.sv.springsecurityclient.service;
 
 import com.sv.springsecurityclient.entity.User;
+import com.sv.springsecurityclient.entity.VerificationToken;
 import com.sv.springsecurityclient.model.UserModel;
 import com.sv.springsecurityclient.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,10 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return user;
 
+    }
+
+    @Override
+    public void saveVerificationTokenForUser(String token, User user) {
+        VerificationToken verificationToken = new VerificationToken(user, token);
     }
 }
