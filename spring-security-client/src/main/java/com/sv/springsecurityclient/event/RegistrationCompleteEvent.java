@@ -1,8 +1,10 @@
 package com.sv.springsecurityclient.event;
 
 import com.sv.springsecurityclient.entity.User;
+import lombok.Data;
 import org.springframework.context.ApplicationEvent;
 
+@Data
 public class RegistrationCompleteEvent extends ApplicationEvent {
 
     private User user;
