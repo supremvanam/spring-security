@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api/users")
 public class RegistrationController {
@@ -25,9 +27,13 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestBody UserModel userModel) {
+    public String registerUser(@RequestBody UserModel userModel, final HttpServletRequest request) {
         User user = userService.registerUser(userModel);
-        publisher.publishEvent(new RegistrationCompleteEvent(user, "url"));
+        publisher.publishEvent(new RegistrationCompleteEvent(user, applicationUrl(request)));
         return "Success";
+    }
+
+    private String applicationUrl(HttpServletRequest request) {
+        return "http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
     }
 }
