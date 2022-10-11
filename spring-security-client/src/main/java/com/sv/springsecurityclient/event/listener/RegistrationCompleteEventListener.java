@@ -3,11 +3,13 @@ package com.sv.springsecurityclient.event.listener;
 import com.sv.springsecurityclient.entity.User;
 import com.sv.springsecurityclient.event.RegistrationCompleteEvent;
 import com.sv.springsecurityclient.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 
 import java.util.UUID;
 
+@Slf4j
 public class RegistrationCompleteEventListener implements ApplicationListener<RegistrationCompleteEvent> {
 
     @Autowired
@@ -21,5 +23,9 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
         userService.saveVerificationTokenForUser(token, user);
 
         // send mail to user
+        String url = event.getApplicationURL() + "verifyRegistration?token="+token;
+
+        // send verification email
+        log.info("Click the link to verify your account: {}", url);
     }
 }
